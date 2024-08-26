@@ -1,0 +1,8 @@
+{
+	"name": "Value4Value",
+	"author": "Matjaz Lipus",
+	"description": "Monetize your content. A New Way to think about value. https://Value4Value.info/",
+	"version": 0.1,
+	"entrypoint": "Value4Value",
+	"type": "user"
+}

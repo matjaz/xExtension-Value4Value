@@ -1,0 +1,7 @@
+.lightning-pay {
+	cursor: pointer;
+	color: var(--font-color-link);
+}
+.lightning-pay div {
+	background-color: #00da00;
+}
