@@ -23,8 +23,18 @@ window.addEventListener('load', function(){
 		async function fetchInvoice(lnAddress, amount) {
 			const data = await fetchLNUrlp(lnAddress);
 			if (data) {
-				const { callback } = data;
-				const url = data.callback + (callback.includes('?') ? '&' : '?') + `amount=${1000 * amount}`;
+				const { callback, commentAllowed } = data;
+				let url = data.callback + (callback.includes('?') ? '&' : '?') + `amount=${1000 * amount}`;
+				if (commentAllowed > 0) {
+					const comment = prompt("Enter message to post author");
+					if (comment) {
+						if (comment.length > commentAllowed) {
+							alert("Message is too long.");
+							return;
+						}
+						url += '&comment=' + encodeURIComponent(comment);
+					}
+				}
 				const r = await fetch(url);
 				if (r.ok) {
 					const data = await r.json();
@@ -69,7 +79,7 @@ window.addEventListener('load', function(){
 				if (webln) {
 					const feed = feeds[feedId];
 					const amount = feed.suggested ? parseFloat(feed.suggested) * 1e8 : '1000';
-					const totalAmount = prompt('Please enter total amount in sats you would like to boost:', amount);
+					const totalAmount = prompt('Enter total amount in sats you would like to boost:', amount);
 					if (totalAmount && Number.isInteger(parseInt(totalAmount, 10))) {
 						const shares = {};
 						const totalShares = feed.recipients.reduce((sum, r) => sum + r.split, 0);
